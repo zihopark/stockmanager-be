@@ -1,0 +1,71 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.4.0'
+	id 'io.spring.dependency-management' version '1.1.6'
+}
+
+group = 'com.stock'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(17)
+	}
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.security:spring-security-web:6.4.1' // Spring Security 6.0.0 이상
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation group: 'commons-io', name: 'commons-io', version: '2.11.0'
+    implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+    implementation 'io.jsonwebtoken:jjwt-gson:0.11.5'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
+	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
+	runtimeOnly 'com.mysql:mysql-connector-j'
+    implementation 'org.apache.commons:commons-lang3:3.12.0'
+    implementation 'jakarta.xml.bind:jakarta.xml.bind-api:4.0.1'
+    implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0"
+    implementation 'io.github.cdimascio:dotenv-java:3.0.0'
+    implementation 'org.springframework.boot:spring-boot-starter-web' // 기본적인 Web 의존성
+    implementation 'com.fasterxml.jackson.core:jackson-databind' // Jackson 데이터 바인딩 의존성
+    implementation 'com.fasterxml.jackson.core:jackson-annotations' // Jackson 애노테이션 의존성
+    implementation 'com.fasterxml.jackson.core:jackson-core' // Jackson 코어 의존성 (선택 사항)
+    compileOnly 'org.projectlombok:lombok'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    //implementation 'org.mariadb.jdbc:mariadb-java-client'  
+    implementation 'com.mysql:mysql-connector-j'
+    //runtimeOnly 'com.oracle.database.jdbc:ojdbc11' 			//oracle cloud 에 접속하기 위한 라이브러리 (기존에 오라클 21c 로 할 때에는 ojdbc11 이었으나 클라우드는 19c 이며, ojdbc8 로 설정해줌.
+    // implementation 'com.oracle.database.security:osdt_cert' //oracle cloud 에 접속하기 위한 라이브러리 
+	//implementation 'com.oracle.database.security:oraclepki' //oracle cloud 에 접속하기 위한 라이브러리 
+	//implementation 'com.oracle.database.security:osdt_core' //oracle cloud 에 접속하기 위한 라이브러리 
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+    annotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+tasks.withType(JavaCompile) {
+    options.compilerArgs << '-parameters'
+}
+
+jar {
+	enabled = false
+}
