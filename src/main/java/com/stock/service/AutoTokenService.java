@@ -5,6 +5,9 @@ import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;  
 import org.springframework.http.HttpHeaders;
@@ -22,11 +25,11 @@ public class AutoTokenService {
 
     
     @Value("${naver.commerce.client-id}")
-    private String CLIENT_ID; // @Value를 사용하여 application.properties에서 값을 가져옵니다.
+    private String CLIENT_ID; // @Value를 사용하여 application.properties에서 값을 가져옴 
     
     
     @Value("${naver.commerce.client-secret}")
-    private String CLIENT_SECRET; // @Value를 사용하여 application.properties에서 값을 가져옵니다.
+    private String CLIENT_SECRET; // @Value를 사용하여 application.properties에서 값을 가져옴 
     
     private String cachedToken;
     private Instant tokenExpirationTime;
@@ -49,7 +52,9 @@ public class AutoTokenService {
 
         // 2. 클라이언트 비밀번호 생성 및 해싱
         String pwd = CLIENT_ID + "_" + timestamp;
-        String hashedPwd = BCrypt.hashpw(pwd, CLIENT_SECRET);
+        //String hashedPwd = BCrypt.hashpw(pwd, CLIENT_SECRET);
+        String hashedPwd = generateSignature(pwd, CLIENT_SECRET);
+
 
         // 3. Base64 인코딩 (java.util.Base64 사용)
         String clientSecretSign = Base64.getEncoder().encodeToString(hashedPwd.getBytes());
@@ -90,4 +95,19 @@ public class AutoTokenService {
             throw new RuntimeException("Failed to get access token: " + response.getStatusCode());
         }
     }
+    
+
+
+    private String generateSignature(String message, String secret) {
+	    try {
+	        Mac sha256_HMAC = Mac.getInstance("HmacSHA256");
+	        SecretKeySpec secretKey = new SecretKeySpec(secret.getBytes(), "HmacSHA256");
+	        sha256_HMAC.init(secretKey);
+	        byte[] hash = sha256_HMAC.doFinal(message.getBytes());
+	        return Base64.getEncoder().encodeToString(hash);
+	    } catch (Exception e) {
+	        throw new RuntimeException("Error generating HMAC signature", e);
+	    }
+    }
 }
+
