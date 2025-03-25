@@ -12,4 +12,5 @@ RUN chmod +x ./gradlew
 RUN ./gradlew build -x test
 
 # 5. JAR 파일 실행 설정
-CMD ["java", "-jar", "build/libs/*.jar"]
+CMD ["java", "-jar", "build/libs/stock-be-0.0.1-SNAPSHOT.jar"]
+
