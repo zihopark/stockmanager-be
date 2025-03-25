@@ -47,6 +47,8 @@ public class MemberController {
 		String refreshToken = "";
 		String str = "";
 		
+		log.info("LoginCheck 도착!");
+		
 		//authkey가 클라이언트에 쿠키로 존재할 경우 로그인 과정 없이 세션 생성 후 게시판 목록 페이지로 이동  
 		if(autoLogin.equals("PASS")) {		
 			if(memberRepository.findByAuthkey(loginData.getAuthkey()) != null) {

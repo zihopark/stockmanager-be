@@ -19,8 +19,10 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 
 @RequiredArgsConstructor
+@Log4j2
 public class JwtAuthFilter extends OncePerRequestFilter {
 	
 	private final UserDetailsServiceImpl userDetailsServiceImpl;
@@ -33,8 +35,8 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 		//공개 경로에 대해선 필터 건너 뛰기.
 		String uri = request.getRequestURI();
 	    if (uri.startsWith("/member")) {
+	    	log.info("JwtAuthFilter 통과! 요청 URI: " + request.getRequestURI());
 	        filterChain.doFilter(request, response);
-	        System.out.println("요청 URI: " + request.getRequestURI());
 	        return;
 	    }
 		
