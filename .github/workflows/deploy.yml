@@ -52,6 +52,7 @@ jobs:
             MYSQL_URL=${{ secrets.MYSQL_URL }}
             MYSQL_USERNAME=${{ secrets.MYSQL_USERNAME }}
             MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }}
+            CORS_ALLOWED_ORIGINS=${{ secrets.CORS_ALLOWED_ORIGINS }}
             EOF
 
             # 2. Docker 이미지 최신 버전 pull
