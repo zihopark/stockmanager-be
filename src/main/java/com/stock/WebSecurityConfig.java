@@ -1,7 +1,9 @@
 package com.stock;
 
+import java.util.Arrays;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -32,6 +34,9 @@ public class WebSecurityConfig {
 	private final UserDetailsServiceImpl userDetailsServiceImpl;
 	private final JWTUtil jwtUtil;
 
+	@Value("${cors.allowed-origins}")
+	private String allowedOrigins;
+	
 	//스프링시큐리티 암호화 스프링빈 등록 
 	@Bean
 	BCryptPasswordEncoder passwordEncoder() {
@@ -89,7 +94,7 @@ public class WebSecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("http://localhost", "http://localhost:3000","https://stockmanager.n-e.kr")); // 허용할 출처
+        configuration.setAllowedOrigins(Arrays.asList(allowedOrigins.split(",")));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS")); // 허용할 HTTP 메서드
         configuration.setAllowedHeaders(List.of("*")); // 허용할 헤더
         configuration.setAllowCredentials(true); // 자격 증명 전송 허용

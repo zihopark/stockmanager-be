@@ -26,12 +26,13 @@ public class StockManagementApplication {
 		SpringApplication.run(StockManagementApplication.class, args);
 		*/
 		
-		// 환경 변수를 읽어 애플리케이션에 설정할 때의 내용 (EC2의 docker-compose.yml에서 설정된 환경변수)
+		// 환경 변수를 읽어 애플리케이션에 설정할 때의 내용 (EC2의 .env 에서 설정된 환경변수)
         System.setProperty("NAVER_CLIENT_ID", System.getenv("NAVER_CLIENT_ID"));
         System.setProperty("NAVER_CLIENT_SECRET", System.getenv("NAVER_CLIENT_SECRET"));
         System.setProperty("MYSQL_URL", System.getenv("MYSQL_URL"));
         System.setProperty("MYSQL_USERNAME", System.getenv("MYSQL_USERNAME"));
         System.setProperty("MYSQL_PASSWORD", System.getenv("MYSQL_PASSWORD"));
+        System.setProperty("CORS_ALLOWED_ORIGINS", System.getenv("CORS_ALLOWED_ORIGINS"));
 
         SpringApplication.run(StockManagementApplication.class, args);
 	}
