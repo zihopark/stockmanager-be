@@ -78,6 +78,7 @@ public class WebSecurityConfig {
 		
 		//스프링 시큐리티의 접근권한 설정(Authentication)
 		http.authorizeHttpRequests((authz)-> authz
+			.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 			.requestMatchers("/member/**").permitAll()	//Login, Signup, 비밀번호 찾기 등 
 			.requestMatchers("/api/**").hasAnyAuthority("ROLE_MANAGER", "ROLE_MASTER")
 			.requestMatchers("/material/**").hasAnyAuthority("ROLE_MANAGER", "ROLE_MASTER")
