@@ -34,8 +34,9 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 		
 		//공개 경로에 대해선 필터 건너 뛰기.
 		String uri = request.getRequestURI();
+		System.out.println("JwtAuthFilter 통과! 요청 URI: " + request.getRequestURI());
+		
 	    if (uri.startsWith("/member")) {
-	    	log.info("JwtAuthFilter 통과! 요청 URI: " + request.getRequestURI());
 	        filterChain.doFilter(request, response);
 	        return;
 	    }

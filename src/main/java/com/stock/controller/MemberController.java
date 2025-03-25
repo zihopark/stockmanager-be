@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,6 +30,7 @@ import lombok.extern.log4j.Log4j2;
 @RestController
 @AllArgsConstructor
 @Log4j2
+@CrossOrigin(origins = "*")
 @RequestMapping("/member")
 public class MemberController {
 	
@@ -47,7 +49,7 @@ public class MemberController {
 		String refreshToken = "";
 		String str = "";
 		
-		log.info("LoginCheck 도착!");
+		System.out.println("LoginCheck 도착!");
 		
 		//authkey가 클라이언트에 쿠키로 존재할 경우 로그인 과정 없이 세션 생성 후 게시판 목록 페이지로 이동  
 		if(autoLogin.equals("PASS")) {		
