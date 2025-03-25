@@ -30,6 +30,14 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 		
+		//공개 경로에 대해선 필터 건너 뛰기.
+		String uri = request.getRequestURI();
+	    if (uri.startsWith("/member")) {
+	        filterChain.doFilter(request, response);
+	        return;
+	    }
+		
+	    //나머지는 그대로 수행.
 		//REST API 실행 시 HTTP Request 헤더에 포함된 Authorization 값 읽음
 		String authorizationHeader = request.getHeader("Authorization");
 		
