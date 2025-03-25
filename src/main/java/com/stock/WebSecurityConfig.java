@@ -23,11 +23,12 @@ import com.stock.service.UserDetailsServiceImpl;
 import com.stock.util.JWTUtil;
 
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
 @Configuration
 @EnableWebSecurity
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Log4j2
 public class WebSecurityConfig {
 
