@@ -45,10 +45,20 @@ jobs:
           script: |
             echo "AWS 연결 중..."
             
-            # DockerHub에서 최신 백엔드 이미지를 EC2로 pull
+            # 1. .env 파일 생성
+            cat <<EOF > /home/ubuntu/.env
+            NAVER_CLIENT_ID=${{ secrets.NAVER_CLIENT_ID }}
+            NAVER_CLIENT_SECRET=${{ secrets.NAVER_CLIENT_SECRET }}
+            MYSQL_URL=${{ secrets.MYSQL_URL }}
+            MYSQL_USERNAME=${{ secrets.MYSQL_USERNAME }}
+            MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }}
+            EOF
+
+            # 2. Docker 이미지 최신 버전 pull
             docker pull ${{ secrets.DOCKER_USER_NAME }}/stock-be:latest
 
-            # docker-compose로 서비스 재시작
+            # 3. 서비스 재시작
+            cd /home/ubuntu
             docker-compose down
             docker-compose up -d
             
