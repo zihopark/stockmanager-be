@@ -13,8 +13,10 @@ import com.stock.util.AES256Util;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 
 @Service
+@Log4j2
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService{
 
@@ -50,12 +52,14 @@ public class MemberServiceImpl implements MemberService{
 
 	    try {
 	        if (member.getTelno() != null) {
+	            log.info("암호화 전 전화번호: {}", member.getTelno());
 	            member.setTelno(aesUtil.encrypt(member.getTelno()));
+	            log.info("암호화 완료");
 	        }
 	    } catch (Exception e) {
+	        log.error("암호화 실패", e);
 	        throw new RuntimeException("전화번호 암호화 실패", e);
 	    }
-
 	    memberRepository.save(member.dtoToEntity(member));	
 	}
 	
