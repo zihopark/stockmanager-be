@@ -36,7 +36,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 		String uri = request.getRequestURI();
 		System.out.println("JwtAuthFilter 통과! 요청 URI: " + request.getRequestURI());
 		
-	    if (uri.startsWith("/member")) {
+		if (uri.startsWith("/member") || uri.equals("/member/signup")) {
 	        filterChain.doFilter(request, response);
 	        return;
 	    }
