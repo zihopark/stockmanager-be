@@ -38,75 +38,74 @@ public class MemberController {
 	private final BCryptPasswordEncoder pwdEncoder;
 	private final JWTUtil jwtUtil;	
 	
-	//로그인
+	
 	@PostMapping("/loginCheck")
-	public ResponseEntity<String> postLogIn(MemberDTO loginData,HttpSession session, 
-			@RequestParam("autoLogin") String autoLogin, HttpServletRequest request) throws Exception {
-		
-		String authkey = "";
-		String accessToken = "";
-		String refreshToken = "";
-		String str = "";
-		
-		System.out.println("LoginCheck 도착!");
-		
-		//authkey가 클라이언트에 쿠키로 존재할 경우 로그인 과정 없이 세션 생성 후 게시판 목록 페이지로 이동  
-		if(autoLogin.equals("PASS")) {		
-			if(memberRepository.findByAuthkey(loginData.getAuthkey()) != null) {
-				str = "{\"message\":\"good\"}";
-				log.info("자동 로그인!");
-				return ResponseEntity.ok().body(str);
-			} else {
-				str = "{\"message\":\"bad\"}";
-				log.info("로그인 실패...");
-				return ResponseEntity.ok().body(str);
-			}				
-		}
-				
-		//아이디 존재 여부 확인
-		if(service.idCheck(loginData.getEmail()) == 0) {
-			str = "{\"message\":\"ID_NOT_FOUND\"}";
-			log.info("아이디가 존재 하지 않음");
-			return ResponseEntity.ok().body(str);
-		}			
-		
-		//아이디가 존재하면 읽어온 email로 로그인 정보 가져 오기
-		MemberDTO member = service.memberInfo(loginData.getEmail());
-		
-		//패스워드 확인
-		if(!pwdEncoder.matches(loginData.getPassword(),member.getPassword())) {
-			str = "{\"message\":\"PASSWORD_NOT_FOUND\"}";
-			log.info("패스워드가 틀렸음");
-			return ResponseEntity.ok().body(str);
-		}
-		
-		//Form에서 읽은 email, 패스워드 값으로 로그인
-		if(autoLogin.equals("NEW")) {
-			
-			//authkey 생성 및 DB 저장 
-			authkey = UUID.randomUUID().toString().replaceAll("-", ""); 
-			member.setAuthkey(authkey);
-			service.authkeyUpdate(member);
-			
-		    //토큰 생성을 위해 MemberEntity 객체 생성
-		    MemberEntity memberEntity = new MemberEntity();
-		    memberEntity.setEmail(member.getEmail());
-		    memberEntity.setRole(member.getRole());
+	public ResponseEntity<String> postLogIn(
+	        @RequestParam("email") String email,
+	        @RequestParam("password") String password,
+	        @RequestParam("autoLogin") String autoLogin,
+	        HttpSession session,
+	        HttpServletRequest request) throws Exception {
 
-		    //generateToken 메서드에 맞게 MemberEntity 객체를 전달
-		    accessToken = jwtUtil.generateToken(memberEntity, 1);
-		    refreshToken = jwtUtil.generateToken(memberEntity, 5);
+	    String authkey = "";
+	    String accessToken = "";
+	    String refreshToken = "";
+	    String str = "";
 
-		    // JSON 응답 생성
-		    str = "{\"message\":\"good\",\"authkey\":\"" + member.getAuthkey() + "\",\"accessToken\":\"" + accessToken + "\",\"refreshToken\":\"" + refreshToken +
-		           "\",\"username\":\"" + URLEncoder.encode(member.getUsername(), "UTF-8") + "\",\"role\":\"" + member.getRole() + "\"}";
+	    System.out.println("LoginCheck 도착!");
 
-			//로그인 로그 정보 기록
-			service.lastdateUpdate(loginData.getEmail(), "login");
-			log.info("아이디/패스워드 로그인");
-		} 
-		return ResponseEntity.ok().body(str);
+	    if (autoLogin.equals("PASS")) {
+	        if (memberRepository.findByAuthkey(password) != null) { // authkey = password로 들어오는 구조
+	            str = "{\"message\":\"good\"}";
+	            log.info("자동 로그인!");
+	            return ResponseEntity.ok().body(str);
+	        } else {
+	            str = "{\"message\":\"bad\"}";
+	            log.info("로그인 실패...");
+	            return ResponseEntity.ok().body(str);
+	        }
+	    }
+
+	    // 아이디 존재 여부 확인
+	    if (service.idCheck(email) == 0) {
+	        str = "{\"message\":\"ID_NOT_FOUND\"}";
+	        log.info("아이디가 존재 하지 않음");
+	        return ResponseEntity.ok().body(str);
+	    }
+
+	    // 로그인 정보 가져오기
+	    MemberDTO member = service.memberInfo(email);
+
+	    // 패스워드 확인
+	    if (!pwdEncoder.matches(password, member.getPassword())) {
+	        str = "{\"message\":\"PASSWORD_NOT_FOUND\"}";
+	        log.info("패스워드가 틀렸음");
+	        return ResponseEntity.ok().body(str);
+	    }
+
+	    if (autoLogin.equals("NEW")) {
+	        authkey = UUID.randomUUID().toString().replaceAll("-", "");
+	        member.setAuthkey(authkey);
+	        service.authkeyUpdate(member);
+
+	        MemberEntity memberEntity = new MemberEntity();
+	        memberEntity.setEmail(member.getEmail());
+	        memberEntity.setRole(member.getRole());
+
+	        accessToken = jwtUtil.generateToken(memberEntity, 1);
+	        refreshToken = jwtUtil.generateToken(memberEntity, 5);
+
+	        str = "{\"message\":\"good\",\"authkey\":\"" + member.getAuthkey() + "\",\"accessToken\":\"" + accessToken +
+	              "\",\"refreshToken\":\"" + refreshToken + "\",\"username\":\"" +
+	              URLEncoder.encode(member.getUsername(), "UTF-8") + "\",\"role\":\"" + member.getRole() + "\"}";
+
+	        service.lastdateUpdate(email, "login");
+	        log.info("아이디/패스워드 로그인");
+	    }
+
+	    return ResponseEntity.ok().body(str);
 	}
+
 	
 	//로그아웃
 	@GetMapping("/logout")
