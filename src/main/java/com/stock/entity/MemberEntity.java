@@ -31,7 +31,7 @@ public class MemberEntity {
 	@Column(name="password",length=200,nullable=false)
 	private String password;
 
-	@Column(name="telno",length=20,nullable=true)
+	@Column(name="telno",length=20,nullable=true) //Telno 만 AES 암호화 진행.
 	private String telno;
 	
 	@Column(name="role",length=20,nullable=false) //기본 USER, 권한 획득 후 MANAGER, 관리자 MASTER
