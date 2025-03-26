@@ -142,37 +142,36 @@ public class MemberController {
 		return ResponseEntity.ok().body(json);
 	}
 	
-	/*
 	@PostMapping("/signup")
-	public ResponseEntity<Map<String,String>> postSignup(
-	    @ModelAttribute MemberDTO member,
+	public ResponseEntity<Map<String, String>> postSignup(
+	    @RequestParam("email") String email,
+	    @RequestParam("password") String password,
+	    @RequestParam("username") String username,
+	    @RequestParam("telno") String telno,
 	    @RequestParam("kind") String kind,
-	    @RequestParam(name="imgProfile", required=false) MultipartFile mpr) throws Exception {
+	    @RequestParam(name="imgProfile", required=false) MultipartFile mpr
+	) throws Exception {
+
+	    MemberDTO member = new MemberDTO();
+	    member.setEmail(email);
+	    member.setPassword(password);
+	    member.setUsername(username);
+	    member.setTelno(telno);
 
 	    if(kind.equals("I")) {
-	        member.setPassword(pwdEncoder.encode(member.getPassword()));
+	        member.setPassword(pwdEncoder.encode(password));
 	        service.signup(member);	
-	    }
-
-	    if(kind.equals("U")) {
+	    } else if(kind.equals("U")) {
 	        service.modifyMemberInfo(member);
 	    }
 
-	    Map<String,String> data = new HashMap<>();
+	    Map<String, String> data = new HashMap<>();
 	    data.put("status", "good");
-	    data.put("username", URLEncoder.encode(member.getUsername(),"UTF-8"));
+	    data.put("username", URLEncoder.encode(member.getUsername(), "UTF-8"));
+
 	    return ResponseEntity.ok().body(data);
 	}
-	*/
-	
-	@PostMapping("/signup")
-	public ResponseEntity<Map<String,String>> postSignup(@RequestBody MemberDTO member) {
-	    service.signup(member);
-	    Map<String,String> data = new HashMap<>();
-	    data.put("status", "good");
-	    data.put("username", member.getUsername());
-	    return ResponseEntity.ok().body(data);
-	}
+
 
 	
 	//사용자 정보 보기
