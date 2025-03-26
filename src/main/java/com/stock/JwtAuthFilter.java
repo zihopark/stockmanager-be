@@ -36,10 +36,10 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 		String uri = request.getRequestURI();
 		System.out.println("JwtAuthFilter 통과! 요청 URI: " + request.getRequestURI());
 		
-		if (uri.startsWith("/member") || uri.equals("/member/signup")) {
-	        filterChain.doFilter(request, response);
-	        return;
-	    }
+		if (uri.startsWith("/member") || uri.equals("/member/signup") || uri.equals("/member/idCheck") || uri.equals("/member/loginCheck")) {
+		    filterChain.doFilter(request, response);
+		    return;
+		}
 		
 	    //나머지는 그대로 수행.
 		//REST API 실행 시 HTTP Request 헤더에 포함된 Authorization 값 읽음
