@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -140,29 +141,27 @@ public class MemberController {
 		return ResponseEntity.ok().body(json);
 	}
 	
-	//회원 등록 및 기본 정보 수정
 	@PostMapping("/signup")
-	public ResponseEntity<Map<String,String>> postSignup(MemberDTO member, @RequestParam("kind") String kind,
-			@RequestParam(name="imgProfile",required=false) MultipartFile mpr) throws Exception {
-		
-		//회원 등록
-		if(kind.equals("I")) {
-			member.setPassword(pwdEncoder.encode(member.getPassword()));
-			service.signup(member);	
-		}
-		
-		//회원 수정
-		if(kind.equals("U")) {
-			service.modifyMemberInfo(member);
-		}
-		
-		Map<String,String> data = new HashMap<>();
-		data.put("status", "good");
-		data.put("username", URLEncoder.encode(member.getUsername(),"UTF-8"));
-		
-		return ResponseEntity.ok().body(data);
-		
+	public ResponseEntity<Map<String,String>> postSignup(
+	    @ModelAttribute MemberDTO member,
+	    @RequestParam("kind") String kind,
+	    @RequestParam(name="imgProfile", required=false) MultipartFile mpr) throws Exception {
+
+	    if(kind.equals("I")) {
+	        member.setPassword(pwdEncoder.encode(member.getPassword()));
+	        service.signup(member);	
+	    }
+
+	    if(kind.equals("U")) {
+	        service.modifyMemberInfo(member);
+	    }
+
+	    Map<String,String> data = new HashMap<>();
+	    data.put("status", "good");
+	    data.put("username", URLEncoder.encode(member.getUsername(),"UTF-8"));
+	    return ResponseEntity.ok().body(data);
 	}
+
 	
 	//사용자 정보 보기
 	@GetMapping("/memberInfo")
