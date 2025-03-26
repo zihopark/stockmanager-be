@@ -21,6 +21,10 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import com.stock.service.UserDetailsServiceImpl;
 import com.stock.util.JWTUtil;
+import org.springframework.boot.web.servlet.MultipartConfigFactory;
+import org.springframework.util.unit.DataSize;
+import jakarta.servlet.MultipartConfigElement;
+
 
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -114,6 +118,13 @@ public class WebSecurityConfig {
     	(AuthenticationConfiguration configuration) throws Exception{ 
 		return configuration.getAuthenticationManager(); 
 	}    
-	
+
+	@Bean
+	public MultipartConfigElement multipartConfigElement() {
+	    MultipartConfigFactory factory = new MultipartConfigFactory();
+	    factory.setMaxFileSize(DataSize.ofMegabytes(50));
+	    factory.setMaxRequestSize(DataSize.ofMegabytes(50));
+	    return factory.createMultipartConfig();
+	}
 	
 }
