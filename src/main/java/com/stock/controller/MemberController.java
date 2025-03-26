@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -141,6 +142,7 @@ public class MemberController {
 		return ResponseEntity.ok().body(json);
 	}
 	
+	/*
 	@PostMapping("/signup")
 	public ResponseEntity<Map<String,String>> postSignup(
 	    @ModelAttribute MemberDTO member,
@@ -159,6 +161,16 @@ public class MemberController {
 	    Map<String,String> data = new HashMap<>();
 	    data.put("status", "good");
 	    data.put("username", URLEncoder.encode(member.getUsername(),"UTF-8"));
+	    return ResponseEntity.ok().body(data);
+	}
+	*/
+	
+	@PostMapping("/signup")
+	public ResponseEntity<Map<String,String>> postSignup(@RequestBody MemberDTO member) {
+	    service.signup(member);
+	    Map<String,String> data = new HashMap<>();
+	    data.put("status", "good");
+	    data.put("username", member.getUsername());
 	    return ResponseEntity.ok().body(data);
 	}
 
