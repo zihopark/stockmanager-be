@@ -55,10 +55,12 @@ public class AutoTokenService {
         String clientSecretSign = Base64.getUrlEncoder()
             .encodeToString(hashedPw.getBytes(StandardCharsets.UTF_8));
         */
-        String clientSecretSign = generateSignature(password, CLIENT_SECRET, timestamp);
+        
+        String clientSecretSign = generateSignature(CLIENT_ID, CLIENT_SECRET, timestamp);
 
 
-        System.out.println("password: " + password);
+        System.out.println("참고로 CLIENT_SECRET = " + CLIENT_SECRET);
+
         System.out.println("encoded: " + clientSecretSign);
         
         MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
@@ -90,14 +92,12 @@ public class AutoTokenService {
         }
     }
     
+    
     public static String generateSignature(String clientId, String clientSecret, Long timestamp) {
         String password = clientId + "_" + timestamp;
-
-        // 네이버는 bcrypt의 결과값을 비교만 하길 원함
-        // client_secret은 bcrypt hash이고, 이걸 salt로 쓰면 안 됨
-        // 대신: hashpw 없이 바로 base64 인코딩
         return Base64.getUrlEncoder()
                      .encodeToString(clientSecret.getBytes(StandardCharsets.UTF_8));
     }
+
 }
 
