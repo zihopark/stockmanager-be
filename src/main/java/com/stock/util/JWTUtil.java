@@ -53,7 +53,8 @@ public class JWTUtil {
     public String generateToken(MemberEntity member, int days) {
     	Map<String, Object> payloads = new HashMap<>();
         payloads.put("email", member.getEmail());
-        payloads.put("role", member.getRole()); // 역할 추가
+        payloads.put("role", "ROLE_" + member.getRole());
+
     	
     	Map<String, Object> headers = new HashMap<>();
         headers.put("typ", "JWT");
