@@ -48,6 +48,8 @@ public class AutoTokenService {
         // bcrypt + base64-url encoding
         String password = CLIENT_ID + "_" + timestamp;
         String hashed = BCrypt.hashpw(password, CLIENT_SECRET);
+        System.out.println("참고로 CLIENT_SECRET = " + CLIENT_SECRET);
+
         String clientSecretSign = Base64.getUrlEncoder().encodeToString(hashed.getBytes(StandardCharsets.UTF_8));
 
         MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
