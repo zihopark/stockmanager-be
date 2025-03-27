@@ -6,17 +6,11 @@ import java.time.Instant;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import java.util.Base64;
-import java.util.HashMap;
 import java.util.Map;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 
-import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
-
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.crypto.bcrypt.BCrypt;
-import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 
@@ -60,12 +54,19 @@ public class AutoTokenService {
         String clientSecretSign = Base64.getUrlEncoder()
             .encodeToString(hashedPw.getBytes(StandardCharsets.UTF_8));
         
+
+        System.out.println("password: " + password);
+        System.out.println("bcrypt hashed: " + hashedPw);
+        System.out.println("encoded: " + clientSecretSign);
+        
         MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
         formData.add("client_id", CLIENT_ID);
         formData.add("timestamp", String.valueOf(timestamp));
         formData.add("client_secret_sign", clientSecretSign);
         formData.add("grant_type", "client_credentials");
         formData.add("type", "SELF");
+        
+
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
