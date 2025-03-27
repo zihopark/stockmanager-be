@@ -86,11 +86,11 @@ public class WebSecurityConfig {
 			.requestMatchers("/member/**").permitAll() //Login, Signup, 비밀번호 찾기 등 
 			.requestMatchers(HttpMethod.POST, "/member/signup").permitAll()
 			.requestMatchers(HttpMethod.POST, "/member/idCheck").permitAll()
-			.requestMatchers("/api/**").hasAnyAuthority("ROLE_MANAGER", "ROLE_MASTER")
-			.requestMatchers("/material/**").hasAnyAuthority("ROLE_MANAGER", "ROLE_MASTER")
-			.requestMatchers("/order/**").hasAnyAuthority("ROLE_MANAGER", "ROLE_MASTER")
-			.requestMatchers("/product/**").hasAnyAuthority("ROLE_MANAGER", "ROLE_MASTER")
-			.requestMatchers("/master/**").hasAnyAuthority("ROLE_MASTER")
+			.requestMatchers("/api/**").hasAnyAuthority("ROLE_MANAGER", "ROLE_MASTER", "MASTER", "MANAGER")
+			.requestMatchers("/material/**").hasAnyAuthority("ROLE_MANAGER", "ROLE_MASTER", "MASTER", "MANAGER")
+			.requestMatchers("/order/**").hasAnyAuthority("ROLE_MANAGER", "ROLE_MASTER", "MASTER", "MANAGER")
+			.requestMatchers("/product/**").hasAnyAuthority("ROLE_MANAGER", "ROLE_MASTER", "MASTER", "MANAGER")
+			.requestMatchers("/master/**").hasAnyAuthority("ROLE_MASTER", "MASTER")
 			.anyRequest().authenticated());
 		
 		log.info("=============== 스프링 시큐리티 필터 체인 설정 완료 ===============");		
