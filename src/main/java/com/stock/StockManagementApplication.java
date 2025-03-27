@@ -26,13 +26,42 @@ public class StockManagementApplication {
 		SpringApplication.run(StockManagementApplication.class, args);
 		*/
 		
-		// 환경 변수를 읽어 애플리케이션에 설정할 때의 내용 (EC2의 .env 에서 설정된 환경변수)
-        System.setProperty("NAVER_CLIENT_ID", System.getenv("NAVER_CLIENT_ID"));
-        System.setProperty("NAVER_CLIENT_SECRET", System.getenv("NAVER_CLIENT_SECRET"));
-        System.setProperty("MYSQL_URL", System.getenv("MYSQL_URL"));
-        System.setProperty("MYSQL_USERNAME", System.getenv("MYSQL_USERNAME"));
-        System.setProperty("MYSQL_PASSWORD", System.getenv("MYSQL_PASSWORD"));
-        System.setProperty("CORS_ALLOWED_ORIGINS", System.getenv("CORS_ALLOWED_ORIGINS"));
+
+        // NAVER_CLIENT_ID
+        String naverClientId = System.getenv("NAVER_CLIENT_ID");
+        if (naverClientId != null && !naverClientId.isBlank()) {
+            System.setProperty("NAVER_CLIENT_ID", naverClientId);
+        }
+
+        // NAVER_CLIENT_SECRET
+        String naverClientSecret = System.getenv("NAVER_CLIENT_SECRET");
+        if (naverClientSecret != null && !naverClientSecret.isBlank()) {
+            System.setProperty("NAVER_CLIENT_SECRET", naverClientSecret);
+        }
+
+        // MYSQL_URL
+        String mysqlUrl = System.getenv("MYSQL_URL");
+        if (mysqlUrl != null && !mysqlUrl.isBlank()) {
+            System.setProperty("MYSQL_URL", mysqlUrl);
+        }
+
+        // MYSQL_USERNAME
+        String mysqlUsername = System.getenv("MYSQL_USERNAME");
+        if (mysqlUsername != null && !mysqlUsername.isBlank()) {
+            System.setProperty("MYSQL_USERNAME", mysqlUsername);
+        }
+
+        // MYSQL_PASSWORD
+        String mysqlPassword = System.getenv("MYSQL_PASSWORD");
+        if (mysqlPassword != null && !mysqlPassword.isBlank()) {
+            System.setProperty("MYSQL_PASSWORD", mysqlPassword);
+        }
+
+        // CORS_ALLOWED_ORIGINS
+        String corsAllowed = System.getenv("CORS_ALLOWED_ORIGINS");
+        if (corsAllowed != null && !corsAllowed.isBlank()) {
+            System.setProperty("CORS_ALLOWED_ORIGINS", corsAllowed);
+        }
 
         SpringApplication.run(StockManagementApplication.class, args);
 	}
