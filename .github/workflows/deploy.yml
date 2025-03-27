@@ -46,13 +46,14 @@ jobs:
             echo "AWS 연결 중..."
             
             # 1. .env 파일 생성
+
             cat <<EOF > /home/ubuntu/.env
-            NAVER_CLIENT_ID=${{ secrets.NAVER_CLIENT_ID }}
-            NAVER_CLIENT_SECRET=${{ secrets.NAVER_CLIENT_SECRET }}
-            MYSQL_URL=${{ secrets.MYSQL_URL }}
-            MYSQL_USERNAME=${{ secrets.MYSQL_USERNAME }}
-            MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }}
-            CORS_ALLOWED_ORIGINS=${{ secrets.CORS_ALLOWED_ORIGINS }}
+            NAVER_CLIENT_ID='${{ secrets.NAVER_CLIENT_ID }}'
+            NAVER_CLIENT_SECRET='${{ secrets.NAVER_CLIENT_SECRET }}'
+            MYSQL_URL='${{ secrets.MYSQL_URL }}'
+            MYSQL_USERNAME='${{ secrets.MYSQL_USERNAME }}'
+            MYSQL_PASSWORD='${{ secrets.MYSQL_PASSWORD }}'
+            CORS_ALLOWED_ORIGINS='${{ secrets.CORS_ALLOWED_ORIGINS }}'
             EOF
 
             # 2. Docker 이미지 최신 버전 pull
