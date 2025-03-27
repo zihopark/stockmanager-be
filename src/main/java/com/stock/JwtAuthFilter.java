@@ -64,15 +64,15 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 				
 				//
 				if(userDetails != null) {					
-					Map<String, Object> claims = null;
-					try {
-						claims = jwtUtil.getDataFromToken(token);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				    String role = "ROLE_" + claims.get("role").toString(); // JWT에서 역할 가져오기
+					Map<String, Object> claims = jwtUtil.getDataFromToken(token);
+					String roleFromToken = claims.get("role").toString();
 
-				    List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(role)); // 역할 적용
+					// role 값이 이미 "ROLE_" 접두사를 포함하고 있지 않다면 추가
+					if (!roleFromToken.startsWith("ROLE_")) {
+					    roleFromToken = "ROLE_" + roleFromToken;
+					}
+
+					List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(roleFromToken));
 
 				    UsernamePasswordAuthenticationToken authentication =
 				        new UsernamePasswordAuthenticationToken(userDetails, null, authorities);
