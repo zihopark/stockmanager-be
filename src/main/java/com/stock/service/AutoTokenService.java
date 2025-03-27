@@ -45,13 +45,21 @@ public class AutoTokenService {
         RestTemplate restTemplate = new RestTemplate();
         long timestamp = Instant.now().toEpochMilli();
 
+        /*
         // bcrypt + base64-url encoding
         String password = CLIENT_ID + "_" + timestamp;
         String hashed = BCrypt.hashpw(password, CLIENT_SECRET);
         System.out.println("참고로 CLIENT_SECRET = " + CLIENT_SECRET);
 
         String clientSecretSign = Base64.getUrlEncoder().encodeToString(hashed.getBytes(StandardCharsets.UTF_8));
-
+		*/
+        
+        String password = CLIENT_ID + "_" + timestamp;
+        String hashedPw = CLIENT_SECRET; // 이미 bcrypt된 해시
+        System.out.println("참고로 CLIENT_SECRET = " + CLIENT_SECRET);
+        String clientSecretSign = Base64.getUrlEncoder()
+            .encodeToString(hashedPw.getBytes(StandardCharsets.UTF_8));
+        
         MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
         formData.add("client_id", CLIENT_ID);
         formData.add("timestamp", String.valueOf(timestamp));
