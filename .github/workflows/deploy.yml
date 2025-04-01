@@ -11,10 +11,10 @@ jobs:
 
     steps:
       - name: 레포지토리 코드 가져오기
-        uses: actions/checkout@v3
+        uses: actions/checkout@11bd719f8aa17353c6a7fffb9deac18bc76a4dbd #최신 버전 4.2.2 
 
       - name: JDK 17 설치
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@5c4dbfbb1c515bce89f0c145ed7f59c6cbbe9b4f #v3.13.0
         with:
           distribution: 'temurin'
           java-version: '17'
@@ -36,7 +36,7 @@ jobs:
 
       # EC2에 접속 후 Docker 이미지 pull 및 배포
       - name: AWS EC2에 ssh 접속 후 배포
-        uses: appleboy/ssh-action@master
+        uses: appleboy/ssh-action@e94f1d05572e70368e5f0c34a2b87781be1cd1b0 #v0.1.10
         with:
           host: ${{ secrets.AWS_IP }}
           port: 22
