@@ -11,7 +11,7 @@ jobs:
 
     steps:
       - name: 레포지토리 코드 가져오기
-        uses: actions/checkout@11bd719f8aa17353c6a7fffb9deac18bc76a4dbd #최신 버전 4.2.2 
+        uses: actions/checkout@e33c7c86b6e46cd5793d47d47af9295cd49f582e
 
       - name: JDK 17 설치
         uses: actions/setup-java@5c4dbfbb1c515bce89f0c145ed7f59c6cbbe9b4f #v3.13.0
