@@ -36,7 +36,7 @@ jobs:
 
       # EC2에 접속 후 Docker 이미지 pull 및 배포
       - name: AWS EC2에 ssh 접속 후 배포
-        uses: appleboy/ssh-action@e94f1d05572e70368e5f0c34a2b87781be1cd1b0 #v0.1.10
+        uses: appleboy/ssh-action@v0.1.10
         with:
           host: ${{ secrets.AWS_IP }}
           port: 22
