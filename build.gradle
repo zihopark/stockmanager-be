@@ -35,7 +35,7 @@ dependencies {
     implementation 'org.mindrot:jbcrypt:0.4'
     runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
 	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
-	runtimeOnly 'com.mysql:mysql-connector-j'
+	runtimeOnly 'org.postgresql:postgresql'
     implementation 'org.apache.commons:commons-lang3:3.12.0'
     implementation 'jakarta.xml.bind:jakarta.xml.bind-api:4.0.1'
     implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0"
@@ -46,8 +46,7 @@ dependencies {
     implementation 'com.fasterxml.jackson.core:jackson-core' // Jackson 코어 의존성 (선택 사항)
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
-    //implementation 'org.mariadb.jdbc:mariadb-java-client'  
-    implementation 'com.mysql:mysql-connector-j'
+    //implementation 'org.mariadb.jdbc:mariadb-java-client'
     //runtimeOnly 'com.oracle.database.jdbc:ojdbc11' 			//oracle cloud 에 접속하기 위한 라이브러리 (기존에 오라클 21c 로 할 때에는 ojdbc11 이었으나 클라우드는 19c 이며, ojdbc8 로 설정해줌.
     // implementation 'com.oracle.database.security:osdt_cert' //oracle cloud 에 접속하기 위한 라이브러리 
 	//implementation 'com.oracle.database.security:oraclepki' //oracle cloud 에 접속하기 위한 라이브러리 

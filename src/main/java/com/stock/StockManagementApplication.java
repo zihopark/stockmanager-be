@@ -39,24 +39,6 @@ public class StockManagementApplication {
             System.setProperty("NAVER_CLIENT_SECRET", naverClientSecret);
         }
 
-        // MYSQL_URL
-        String mysqlUrl = System.getenv("MYSQL_URL");
-        if (mysqlUrl != null && !mysqlUrl.isBlank()) {
-            System.setProperty("MYSQL_URL", mysqlUrl);
-        }
-
-        // MYSQL_USERNAME
-        String mysqlUsername = System.getenv("MYSQL_USERNAME");
-        if (mysqlUsername != null && !mysqlUsername.isBlank()) {
-            System.setProperty("MYSQL_USERNAME", mysqlUsername);
-        }
-
-        // MYSQL_PASSWORD
-        String mysqlPassword = System.getenv("MYSQL_PASSWORD");
-        if (mysqlPassword != null && !mysqlPassword.isBlank()) {
-            System.setProperty("MYSQL_PASSWORD", mysqlPassword);
-        }
-
         // CORS_ALLOWED_ORIGINS
         String corsAllowed = System.getenv("CORS_ALLOWED_ORIGINS");
         if (corsAllowed != null && !corsAllowed.isBlank()) {
